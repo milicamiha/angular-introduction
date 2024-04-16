@@ -50,6 +50,7 @@ export class UserRegistrationComponent {
   }
 
   onSubmit(value: any) {
+    
     console.log(value)
 
     const user = this.form.value as User
@@ -74,5 +75,21 @@ export class UserRegistrationComponent {
       success: false,
       message: 'Not attempted yet'
     }
+  }
+  
+  check_duplicate_email() {
+    const email = this.form.get('email').value;
+
+    this.userService.check_duplicate_email(email).subscribe({
+      next: (response) => {
+        console.log(response.msg)
+        this.form.get('email').setErrors(null)
+      },
+      error: (response) => {
+        const message = response.error.msg;
+        console.log(message);
+        this.form.get('email').setErrors({ duplicateEmail: true })
+      }
+    })
   }
 }
