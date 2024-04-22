@@ -31,7 +31,8 @@ export class UserLoginComponent {
           next: (response) => {
             const access_token = response.access_token;
             localStorage.setItem('access_token', access_token);
-            const decodedTokenSubject = jwtDecode(access_token).sub as unknown as LoggedInUser;
+            const decodedTokenSubject = jwtDecode(access_token)
+            .sub as unknown as LoggedInUser;
 
             this.userService.user.set({
               fullname: decodedTokenSubject.fullname,
